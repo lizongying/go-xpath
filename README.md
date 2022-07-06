@@ -4,6 +4,9 @@ more simple xpath parser
 
 ## document
 
+For more usage, please refer to the test
+[xpath_test](./test/xpath_test.go)
+
 [document](https://pkg.go.dev/github.com/lizongying/go-xpath)
 
 ## install
