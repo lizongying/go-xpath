@@ -2,6 +2,10 @@
 
 more simple xpath parser
 
+## document
+
+[document](https://pkg.go.dev/github.com/lizongying/go-xpath)
+
 ## install
 
 ```
