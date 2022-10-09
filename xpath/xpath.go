@@ -195,52 +195,52 @@ func (x *Xpath) FindIntOneOr(xpath string, or int) (i int) {
 }
 
 // NewXpathFromStr xpath init
-func NewXpathFromStr(str string) (xpath Xpath, err error) {
+func NewXpathFromStr(str string) (xpath *Xpath, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(strings.NewReader(str))
 	if err != nil {
 		return
 	}
-	xpath = Xpath{
+	xpath = &Xpath{
 		Node: node,
 	}
 	return
 }
 
 // NewXpathFromBytes xpath init
-func NewXpathFromBytes(b []byte) (xpath Xpath, err error) {
+func NewXpathFromBytes(b []byte) (xpath *Xpath, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(bytes.NewReader(b))
 	if err != nil {
 		return
 	}
-	xpath = Xpath{
+	xpath = &Xpath{
 		Node: node,
 	}
 	return
 }
 
 // NewXpathFromReader xpath init
-func NewXpathFromReader(i io.Reader) (xpath Xpath, err error) {
+func NewXpathFromReader(i io.Reader) (xpath *Xpath, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(i)
 	if err != nil {
 		return
 	}
-	xpath = Xpath{
+	xpath = &Xpath{
 		Node: node,
 	}
 	return
 }
 
 // NewXpathFromFile xpath init
-func NewXpathFromFile(f string) (xpath Xpath, err error) {
+func NewXpathFromFile(f string) (xpath *Xpath, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.LoadDoc(f)
 	if err != nil {
 		return
 	}
-	xpath = Xpath{
+	xpath = &Xpath{
 		Node: node,
 	}
 	return
