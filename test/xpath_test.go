@@ -16,7 +16,7 @@ func TestXpathFromStrParse(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
 	x, _ := xpath.NewXpathFromStr(html)
 
-	assert.Equal(t, x.Node.FirstChild.Data, "html")
+	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
 // TestXpathFromReaderParse go test -v test/xpath_test.go -run TestXpathFromReaderParse
@@ -24,7 +24,7 @@ func TestXpathFromReaderParse(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
 	x, _ := xpath.NewXpathFromReader(strings.NewReader(html))
 
-	assert.Equal(t, x.Node.FirstChild.Data, "html")
+	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
 // TestXpathFromFile go test -v test/xpath_test.go -run TestXpathFromFile
@@ -40,7 +40,7 @@ func TestXpathFromFile(t *testing.T) {
 	_, _ = file.WriteString(html)
 	x, _ := xpath.NewXpathFromFile(file.Name())
 
-	assert.Equal(t, x.Node.FirstChild.Data, "html")
+	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
 // TestXpathFindStrMany go test -v test/xpath_test.go -run TestXpathFindStrMany

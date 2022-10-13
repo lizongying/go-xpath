@@ -10,7 +10,19 @@ import (
 )
 
 type Xpath struct {
-	Node *html.Node
+	node *html.Node
+}
+
+// GetNode get node
+func (x *Xpath) GetNode() (node *html.Node) {
+	if x == nil {
+		return
+	}
+	if x.node == nil {
+		return
+	}
+	node = x.node
+	return
 }
 
 // FindNodeMany find nodes
@@ -18,13 +30,13 @@ func (x *Xpath) FindNodeMany(str string) (xs []*Xpath) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.Node, str)
+	ns := htmlquery.Find(x.node, str)
 	for _, n := range ns {
 		xs = append(xs, &Xpath{
-			Node: n,
+			node: n,
 		})
 	}
 	return
@@ -35,15 +47,15 @@ func (x *Xpath) FindNodeOne(str string) (x1 *Xpath) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(x.Node, str)
+	n := htmlquery.FindOne(x.node, str)
 	if n == nil {
 		return
 	}
 	x1 = &Xpath{
-		Node: n,
+		node: n,
 	}
 	return
 }
@@ -54,17 +66,17 @@ func (x *Xpath) FindNodeOneOr(str string) (x1 *Xpath) {
 		x1 = &Xpath{}
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		x1 = &Xpath{}
 		return
 	}
-	n := htmlquery.FindOne(x.Node, str)
+	n := htmlquery.FindOne(x.node, str)
 	if n == nil {
 		x1 = &Xpath{}
 		return
 	}
 	x1 = &Xpath{
-		Node: n,
+		node: n,
 	}
 	return
 }
@@ -74,10 +86,10 @@ func (x *Xpath) FindStrMany(xpath string) (list []string) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.Node, xpath)
+	ns := htmlquery.Find(x.node, xpath)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -94,10 +106,10 @@ func (x *Xpath) FindStrOne(xpath string) (str string) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(x.Node, xpath)
+	n := htmlquery.FindOne(x.node, xpath)
 	if n == nil {
 		return
 	}
@@ -112,11 +124,11 @@ func (x *Xpath) FindStrOneOr(xpath string, or string) (str string) {
 		str = or
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		str = or
 		return
 	}
-	n := htmlquery.FindOne(x.Node, xpath)
+	n := htmlquery.FindOne(x.node, xpath)
 	if n == nil {
 		str = or
 		return
@@ -135,10 +147,10 @@ func (x *Xpath) FindIntMany(xpath string) (list []int) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.Node, xpath)
+	ns := htmlquery.Find(x.node, xpath)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -153,10 +165,10 @@ func (x *Xpath) FindIntOne(xpath string) (i int) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(x.Node, xpath)
+	n := htmlquery.FindOne(x.node, xpath)
 	if n == nil {
 		return
 	}
@@ -175,11 +187,11 @@ func (x *Xpath) FindIntOneOr(xpath string, or int) (i int) {
 		i = or
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		i = or
 		return
 	}
-	n := htmlquery.FindOne(x.Node, xpath)
+	n := htmlquery.FindOne(x.node, xpath)
 	if n == nil {
 		i = or
 		return
@@ -202,7 +214,7 @@ func NewXpathFromStr(str string) (xpath *Xpath, err error) {
 		return
 	}
 	xpath = &Xpath{
-		Node: node,
+		node: node,
 	}
 	return
 }
@@ -215,7 +227,7 @@ func NewXpathFromBytes(b []byte) (xpath *Xpath, err error) {
 		return
 	}
 	xpath = &Xpath{
-		Node: node,
+		node: node,
 	}
 	return
 }
@@ -228,7 +240,7 @@ func NewXpathFromReader(i io.Reader) (xpath *Xpath, err error) {
 		return
 	}
 	xpath = &Xpath{
-		Node: node,
+		node: node,
 	}
 	return
 }
@@ -241,7 +253,7 @@ func NewXpathFromFile(f string) (xpath *Xpath, err error) {
 		return
 	}
 	xpath = &Xpath{
-		Node: node,
+		node: node,
 	}
 	return
 }
@@ -251,9 +263,9 @@ func (x *Xpath) OutHtml(self bool) (str string) {
 	if x == nil {
 		return
 	}
-	if x.Node == nil {
+	if x.node == nil {
 		return
 	}
-	str = htmlquery.OutputHTML(x.Node, self)
+	str = htmlquery.OutputHTML(x.node, self)
 	return
 }
