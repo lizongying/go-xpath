@@ -11,16 +11,16 @@ import (
 
 // go test -v test/xpath_test.go
 
-// TestXpathFromStrParse go test -v test/xpath_test.go -run TestXpathFromStrParse
-func TestXpathFromStrParse(t *testing.T) {
+// TestXpathFromStr go test -v test/xpath_test.go -run TestXpathFromStr
+func TestXpathFromStr(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
 	x, _ := xpath.NewXpathFromStr(html)
 
 	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
-// TestXpathFromReaderParse go test -v test/xpath_test.go -run TestXpathFromReaderParse
-func TestXpathFromReaderParse(t *testing.T) {
+// TestXpathFromReader go test -v test/xpath_test.go -run TestXpathFromReader
+func TestXpathFromReader(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
 	x, _ := xpath.NewXpathFromReader(strings.NewReader(html))
 
