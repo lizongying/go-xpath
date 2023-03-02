@@ -1,4 +1,4 @@
-package xpath
+package selector
 
 import (
 	"bytes"
@@ -9,33 +9,33 @@ import (
 	"strings"
 )
 
-type Xpath struct {
+type Selector struct {
 	node *html.Node
 }
 
 // GetNode get node
-func (x *Xpath) GetNode() (node *html.Node) {
-	if x == nil {
+func (s *Selector) GetNode() (node *html.Node) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	node = x.node
+	node = s.node
 	return
 }
 
 // FindNodeMany find nodes
-func (x *Xpath) FindNodeMany(str string) (xs []*Xpath) {
-	if x == nil {
+func (s *Selector) FindNodeMany(xpath string) (selectors []*Selector) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.node, str)
+	ns := htmlquery.Find(s.node, xpath)
 	for _, n := range ns {
-		xs = append(xs, &Xpath{
+		selectors = append(selectors, &Selector{
 			node: n,
 		})
 	}
@@ -43,53 +43,53 @@ func (x *Xpath) FindNodeMany(str string) (xs []*Xpath) {
 }
 
 // FindNodeOne find node
-func (x *Xpath) FindNodeOne(str string) (x1 *Xpath) {
-	if x == nil {
+func (s *Selector) FindNodeOne(xpath string) (selector *Selector) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(x.node, str)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
 		return
 	}
-	x1 = &Xpath{
+	selector = &Selector{
 		node: n,
 	}
 	return
 }
 
 // FindNodeOneOr find node
-func (x *Xpath) FindNodeOneOr(str string) (x1 *Xpath) {
-	if x == nil {
-		x1 = &Xpath{}
+func (s *Selector) FindNodeOneOr(xpath string) (selector *Selector) {
+	if s == nil {
+		selector = &Selector{}
 		return
 	}
-	if x.node == nil {
-		x1 = &Xpath{}
+	if s.node == nil {
+		selector = &Selector{}
 		return
 	}
-	n := htmlquery.FindOne(x.node, str)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
-		x1 = &Xpath{}
+		selector = &Selector{}
 		return
 	}
-	x1 = &Xpath{
+	selector = &Selector{
 		node: n,
 	}
 	return
 }
 
 // FindStrMany find a string list
-func (x *Xpath) FindStrMany(xpath string) (list []string) {
-	if x == nil {
+func (s *Selector) FindStrMany(xpath string) (list []string) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.node, xpath)
+	ns := htmlquery.Find(s.node, xpath)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -99,17 +99,14 @@ func (x *Xpath) FindStrMany(xpath string) (list []string) {
 }
 
 // FindStrOne find a string
-func (x *Xpath) FindStrOne(xpath string) (str string) {
-	if x == nil {
+func (s *Selector) FindStrOne(xpath string) (str string) {
+	if s == nil {
 		return
 	}
-	if x == nil {
+	if s.node == nil {
 		return
 	}
-	if x.node == nil {
-		return
-	}
-	n := htmlquery.FindOne(x.node, xpath)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
 		return
 	}
@@ -119,16 +116,16 @@ func (x *Xpath) FindStrOne(xpath string) (str string) {
 }
 
 // FindStrOneOr find a string, will return a default string if you find nothing
-func (x *Xpath) FindStrOneOr(xpath string, or string) (str string) {
-	if x == nil {
+func (s *Selector) FindStrOneOr(xpath string, or string) (str string) {
+	if s == nil {
 		str = or
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		str = or
 		return
 	}
-	n := htmlquery.FindOne(x.node, xpath)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
 		str = or
 		return
@@ -143,14 +140,14 @@ func (x *Xpath) FindStrOneOr(xpath string, or string) (str string) {
 }
 
 // FindIntMany find int list
-func (x *Xpath) FindIntMany(xpath string) (list []int) {
-	if x == nil {
+func (s *Selector) FindIntMany(xpath string) (list []int) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(x.node, xpath)
+	ns := htmlquery.Find(s.node, xpath)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -161,14 +158,14 @@ func (x *Xpath) FindIntMany(xpath string) (list []int) {
 }
 
 // FindIntOne find int
-func (x *Xpath) FindIntOne(xpath string) (i int) {
-	if x == nil {
+func (s *Selector) FindIntOne(xpath string) (i int) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(x.node, xpath)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
 		return
 	}
@@ -182,16 +179,16 @@ func (x *Xpath) FindIntOne(xpath string) (i int) {
 }
 
 // FindIntOneOr find  int, will return a default int if you find nothing
-func (x *Xpath) FindIntOneOr(xpath string, or int) (i int) {
-	if x == nil {
+func (s *Selector) FindIntOneOr(xpath string, or int) (i int) {
+	if s == nil {
 		i = or
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		i = or
 		return
 	}
-	n := htmlquery.FindOne(x.node, xpath)
+	n := htmlquery.FindOne(s.node, xpath)
 	if n == nil {
 		i = or
 		return
@@ -206,66 +203,66 @@ func (x *Xpath) FindIntOneOr(xpath string, or int) (i int) {
 	return
 }
 
-// NewXpathFromStr xpath init
-func NewXpathFromStr(str string) (xpath *Xpath, err error) {
+// NewSelectorFromStr selector from str
+func NewSelectorFromStr(str string) (selector *Selector, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(strings.NewReader(str))
 	if err != nil {
 		return
 	}
-	xpath = &Xpath{
+	selector = &Selector{
 		node: node,
 	}
 	return
 }
 
-// NewXpathFromBytes xpath init
-func NewXpathFromBytes(b []byte) (xpath *Xpath, err error) {
+// NewSelectorFromBytes selector from bytes
+func NewSelectorFromBytes(b []byte) (selector *Selector, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(bytes.NewReader(b))
 	if err != nil {
 		return
 	}
-	xpath = &Xpath{
+	selector = &Selector{
 		node: node,
 	}
 	return
 }
 
-// NewXpathFromReader xpath init
-func NewXpathFromReader(i io.Reader) (xpath *Xpath, err error) {
+// NewSelectorFromReader selector from reader
+func NewSelectorFromReader(i io.Reader) (selector *Selector, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.Parse(i)
 	if err != nil {
 		return
 	}
-	xpath = &Xpath{
+	selector = &Selector{
 		node: node,
 	}
 	return
 }
 
-// NewXpathFromFile xpath init
-func NewXpathFromFile(f string) (xpath *Xpath, err error) {
+// NewSelectorFromFile selector from file
+func NewSelectorFromFile(f string) (selector *Selector, err error) {
 	htmlquery.DisableSelectorCache = true
 	node, err := htmlquery.LoadDoc(f)
 	if err != nil {
 		return
 	}
-	xpath = &Xpath{
+	selector = &Selector{
 		node: node,
 	}
 	return
 }
 
 // OutHtml return html
-func (x *Xpath) OutHtml(self bool) (str string) {
-	if x == nil {
+func (s *Selector) OutHtml(self bool) (str string) {
+	if s == nil {
 		return
 	}
-	if x.node == nil {
+	if s.node == nil {
 		return
 	}
-	str = htmlquery.OutputHTML(x.node, self)
+	str = htmlquery.OutputHTML(s.node, self)
 	return
 }

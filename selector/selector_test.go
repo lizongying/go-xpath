@@ -1,7 +1,6 @@
-package test
+package selector
 
 import (
-	"github.com/lizongying/go-xpath/xpath"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"
@@ -9,26 +8,26 @@ import (
 	"testing"
 )
 
-// go test -v test/xpath_test.go
+// go test -v selector/*.go
 
-// TestXpathFromStr go test -v test/xpath_test.go -run TestXpathFromStr
-func TestXpathFromStr(t *testing.T) {
+// TestSelectorFromStr go test -v selector/*.go -run TestSelectorFromStr
+func TestSelectorFromStr(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
-// TestXpathFromReader go test -v test/xpath_test.go -run TestXpathFromReader
-func TestXpathFromReader(t *testing.T) {
+// TestSelectorFromReader go test -v selector/*.go -run TestSelectorFromReader
+func TestSelectorFromReader(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromReader(strings.NewReader(html))
+	x, _ := NewSelectorFromReader(strings.NewReader(html))
 
 	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
-// TestXpathFromFile go test -v test/xpath_test.go -run TestXpathFromFile
-func TestXpathFromFile(t *testing.T) {
+// TestSelectorFromFile go test -v selector/*.go -run TestSelectorFromFile
+func TestSelectorFromFile(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
 	file, _ := ioutil.TempFile(os.TempDir(), "")
 	defer func(name string) {
@@ -38,15 +37,15 @@ func TestXpathFromFile(t *testing.T) {
 		}
 	}(file.Name())
 	_, _ = file.WriteString(html)
-	x, _ := xpath.NewXpathFromFile(file.Name())
+	x, _ := NewSelectorFromFile(file.Name())
 
 	assert.Equal(t, x.GetNode().FirstChild.Data, "html")
 }
 
-// TestXpathFindStrMany go test -v test/xpath_test.go -run TestXpathFindStrMany
-func TestXpathFindStrMany(t *testing.T) {
+// TestSelectorFindStrMany go test -v selector/*.go -run TestSelectorFindStrMany
+func TestSelectorFindStrMany(t *testing.T) {
 	html := []byte(`<html class="123">....<div class="789">....</div><div class="456">....</div></html>`)
-	x, _ := xpath.NewXpathFromBytes(html)
+	x, _ := NewSelectorFromBytes(html)
 
 	li := x.FindStrMany(`//div[@class]/@class`)
 	t.Log(li)
@@ -57,10 +56,10 @@ func TestXpathFindStrMany(t *testing.T) {
 	assert.Equal(t, li, []string(nil))
 }
 
-// TestXpathFindStrOne go test -v test/xpath_test.go -run TestXpathFindStrOne
-func TestXpathFindStrOne(t *testing.T) {
+// TestSelectorFindStrOne go test -v selector/*.go -run TestSelectorFindStrOne
+func TestSelectorFindStrOne(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	str := x.FindStrOne(`//div[@class]/@class`)
 	t.Log(str)
@@ -71,10 +70,10 @@ func TestXpathFindStrOne(t *testing.T) {
 	assert.Equal(t, str, "")
 }
 
-// TestXpathFindStrOneOr go test -v test/xpath_test.go -run TestXpathFindStrOneOr
-func TestXpathFindStrOneOr(t *testing.T) {
+// TestSelectorFindStrOneOr go test -v selector/*.go -run TestSelectorFindStrOneOr
+func TestSelectorFindStrOneOr(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	str := x.FindStrOneOr(`//div[@class]/@class`, "999")
 	t.Log(str)
@@ -85,10 +84,10 @@ func TestXpathFindStrOneOr(t *testing.T) {
 	assert.Equal(t, str, "999")
 }
 
-// TestXpathFindIntMany go test -v test/xpath_test.go -run TestXpathFindIntMany
-func TestXpathFindIntMany(t *testing.T) {
+// TestSelectorFindIntMany go test -v selector/*.go -run TestSelectorFindIntMany
+func TestSelectorFindIntMany(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	li := x.FindIntMany(`//div[@class]/@class`)
 	t.Log(li)
@@ -99,10 +98,10 @@ func TestXpathFindIntMany(t *testing.T) {
 	assert.Equal(t, li, []int(nil))
 }
 
-// TestXpathFindIntOne go test -v test/xpath_test.go -run TestXpathFindIntOne
-func TestXpathFindIntOne(t *testing.T) {
+// TestSelectorFindIntOne go test -v selector/*.go -run TestSelectorFindIntOne
+func TestSelectorFindIntOne(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	i := x.FindIntOne(`//div[@class]/@class`)
 	t.Log(i)
@@ -113,10 +112,10 @@ func TestXpathFindIntOne(t *testing.T) {
 	assert.Equal(t, i, 0)
 }
 
-// TestXpathFindIntOneOr go test -v test/xpath_test.go -run TestXpathFindIntOneOr
-func TestXpathFindIntOneOr(t *testing.T) {
+// TestSelectorFindIntOneOr go test -v selector/*.go -run TestSelectorFindIntOneOr
+func TestSelectorFindIntOneOr(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	i := x.FindIntOneOr(`//div[@class]/@class`, 999)
 	t.Log(i)
@@ -127,10 +126,10 @@ func TestXpathFindIntOneOr(t *testing.T) {
 	assert.Equal(t, i, 999)
 }
 
-// TestXpathFindNodeManyFindStrMany go test -v test/xpath_test.go -run TestXpathFindNodeManyFindStrMany
-func TestXpathFindNodeManyFindStrMany(t *testing.T) {
+// TestSelectorFindNodeManyFindStrMany go test -v selector/*.go -run TestSelectorFindNodeManyFindStrMany
+func TestSelectorFindNodeManyFindStrMany(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	for k, i := range x.FindNodeMany(`//div[@class]`) {
 		li := i.FindStrMany(`./@class`)
@@ -150,10 +149,10 @@ func TestXpathFindNodeManyFindStrMany(t *testing.T) {
 	}
 }
 
-// TestXpathFindNodeOneFindStrMany go test -v test/xpath_test.go -run TestXpathFindNodeOneFindStrMany
-func TestXpathFindNodeOneFindStrMany(t *testing.T) {
+// TestSelectorFindNodeOneFindStrMany go test -v selector/*.go -run TestSelectorFindNodeOneFindStrMany
+func TestSelectorFindNodeOneFindStrMany(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	li := x.FindNodeOne(`//div[@class]`).FindStrMany(`./@class`)
 	t.Log(li)
@@ -164,10 +163,10 @@ func TestXpathFindNodeOneFindStrMany(t *testing.T) {
 	assert.Equal(t, li, []string(nil))
 }
 
-// TestXpathOutHtml go test -v test/xpath_test.go -run TestXpathOutHtml
-func TestXpathOutHtml(t *testing.T) {
+// TestSelectorOutHtml go test -v selector/*.go -run TestSelectorOutHtml
+func TestSelectorOutHtml(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	x, _ := xpath.NewXpathFromStr(html)
+	x, _ := NewSelectorFromStr(html)
 
 	s := x.FindNodeOne(`//html[@class]`).OutHtml(true)
 	t.Log(s)
