@@ -1,4 +1,4 @@
-package selector
+package xpath
 
 import (
 	"bytes"
@@ -204,9 +204,9 @@ func (s *Selector) FindIntOneOr(xpath string, or int) (i int) {
 }
 
 // NewSelectorFromStr selector from str
-func NewSelectorFromStr(str string) (selector *Selector, err error) {
+func NewSelectorFromStr(s string) (selector *Selector, err error) {
 	htmlquery.DisableSelectorCache = true
-	node, err := htmlquery.Parse(strings.NewReader(str))
+	node, err := htmlquery.Parse(strings.NewReader(s))
 	if err != nil {
 		return
 	}

@@ -1,21 +1,3 @@
-# go-xpath
-
-golang实现的简单xpath选择器，使用更简单。 simple xpath selector
-
-[document](https://pkg.go.dev/github.com/lizongying/go-xpath)
-
-## Install
-
-```
-go get github.com/lizongying/go-xpath
-```
-
-## Usage
-
-For more usage, please refer to the test
-[selector_test](./selector/selector_test.go)
-
-```go
 package main
 
 import (
@@ -47,5 +29,3 @@ func main() {
 	//123
 	fmt.Println(s)
 }
-
-```

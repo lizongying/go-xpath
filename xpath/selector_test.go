@@ -1,4 +1,4 @@
-package selector
+package xpath
 
 import (
 	"github.com/stretchr/testify/assert"
