@@ -13,6 +13,39 @@ type Selector struct {
 	node *html.Node
 }
 
+// One return a result
+func (s *Selector) One(xpath string) (result *Result) {
+	if s == nil {
+		return
+	}
+	if s.node == nil {
+		return
+	}
+	n := htmlquery.FindOne(s.node, xpath)
+	if n == nil {
+		return
+	}
+	str := htmlquery.InnerText(n)
+	result = NewResult(str)
+	return
+}
+
+// Many return a result array
+func (s *Selector) Many(xpath string) (results []*Result) {
+	if s == nil {
+		return
+	}
+	if s.node == nil {
+		return
+	}
+	ns := htmlquery.Find(s.node, xpath)
+	for _, n := range ns {
+		str := htmlquery.InnerText(n)
+		results = append(results, NewResult(str))
+	}
+	return
+}
+
 // GetNode get node
 func (s *Selector) GetNode() (node *html.Node) {
 	if s == nil {
