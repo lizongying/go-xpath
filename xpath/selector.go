@@ -14,14 +14,14 @@ type Selector struct {
 }
 
 // One return a result
-func (s *Selector) One(xpath string) (result *Result) {
+func (s *Selector) One(path string) (result *Result) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		return
 	}
@@ -31,14 +31,14 @@ func (s *Selector) One(xpath string) (result *Result) {
 }
 
 // Many return a result array
-func (s *Selector) Many(xpath string) (results []*Result) {
+func (s *Selector) Many(path string) (results []*Result) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(s.node, xpath)
+	ns := htmlquery.Find(s.node, path)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		results = append(results, NewResult(str))
@@ -59,14 +59,14 @@ func (s *Selector) GetNode() (node *html.Node) {
 }
 
 // FindNodeMany find nodes
-func (s *Selector) FindNodeMany(xpath string) (selectors []*Selector) {
+func (s *Selector) FindNodeMany(path string) (selectors []*Selector) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(s.node, xpath)
+	ns := htmlquery.Find(s.node, path)
 	for _, n := range ns {
 		selectors = append(selectors, &Selector{
 			node: n,
@@ -76,14 +76,14 @@ func (s *Selector) FindNodeMany(xpath string) (selectors []*Selector) {
 }
 
 // FindNodeOne find node
-func (s *Selector) FindNodeOne(xpath string) (selector *Selector) {
+func (s *Selector) FindNodeOne(path string) (selector *Selector) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (s *Selector) FindNodeOne(xpath string) (selector *Selector) {
 }
 
 // FindNodeOneOr find node
-func (s *Selector) FindNodeOneOr(xpath string) (selector *Selector) {
+func (s *Selector) FindNodeOneOr(path string) (selector *Selector) {
 	if s == nil {
 		selector = &Selector{}
 		return
@@ -103,7 +103,7 @@ func (s *Selector) FindNodeOneOr(xpath string) (selector *Selector) {
 		selector = &Selector{}
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		selector = &Selector{}
 		return
@@ -115,14 +115,14 @@ func (s *Selector) FindNodeOneOr(xpath string) (selector *Selector) {
 }
 
 // FindStrMany find a string list
-func (s *Selector) FindStrMany(xpath string) (list []string) {
+func (s *Selector) FindStrMany(path string) (list []string) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(s.node, xpath)
+	ns := htmlquery.Find(s.node, path)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -132,14 +132,14 @@ func (s *Selector) FindStrMany(xpath string) (list []string) {
 }
 
 // FindStrOne find a string
-func (s *Selector) FindStrOne(xpath string) (str string) {
+func (s *Selector) FindStrOne(path string) (str string) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		return
 	}
@@ -149,7 +149,7 @@ func (s *Selector) FindStrOne(xpath string) (str string) {
 }
 
 // FindStrOneOr find a string, will return a default string if you find nothing
-func (s *Selector) FindStrOneOr(xpath string, or string) (str string) {
+func (s *Selector) FindStrOneOr(path string, or string) (str string) {
 	if s == nil {
 		str = or
 		return
@@ -158,7 +158,7 @@ func (s *Selector) FindStrOneOr(xpath string, or string) (str string) {
 		str = or
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		str = or
 		return
@@ -173,14 +173,14 @@ func (s *Selector) FindStrOneOr(xpath string, or string) (str string) {
 }
 
 // FindIntMany find int list
-func (s *Selector) FindIntMany(xpath string) (list []int) {
+func (s *Selector) FindIntMany(path string) (list []int) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	ns := htmlquery.Find(s.node, xpath)
+	ns := htmlquery.Find(s.node, path)
 	for _, n := range ns {
 		str := htmlquery.InnerText(n)
 		str = strings.TrimSpace(str)
@@ -191,14 +191,14 @@ func (s *Selector) FindIntMany(xpath string) (list []int) {
 }
 
 // FindIntOne find int
-func (s *Selector) FindIntOne(xpath string) (i int) {
+func (s *Selector) FindIntOne(path string) (i int) {
 	if s == nil {
 		return
 	}
 	if s.node == nil {
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		return
 	}
@@ -212,7 +212,7 @@ func (s *Selector) FindIntOne(xpath string) (i int) {
 }
 
 // FindIntOneOr find  int, will return a default int if you find nothing
-func (s *Selector) FindIntOneOr(xpath string, or int) (i int) {
+func (s *Selector) FindIntOneOr(path string, or int) (i int) {
 	if s == nil {
 		i = or
 		return
@@ -221,7 +221,7 @@ func (s *Selector) FindIntOneOr(xpath string, or int) (i int) {
 		i = or
 		return
 	}
-	n := htmlquery.FindOne(s.node, xpath)
+	n := htmlquery.FindOne(s.node, path)
 	if n == nil {
 		i = or
 		return

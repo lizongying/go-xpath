@@ -2,7 +2,6 @@ package xpath
 
 import (
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -29,7 +28,7 @@ func TestSelectorFromReader(t *testing.T) {
 // TestSelectorFromFile go test -v selector/*.go -run TestSelectorFromFile
 func TestSelectorFromFile(t *testing.T) {
 	html := `<html class="123">....<div class="789">....</div><div class="456">....</div></html>`
-	file, _ := ioutil.TempFile(os.TempDir(), "")
+	file, _ := os.CreateTemp(os.TempDir(), "")
 	defer func(name string) {
 		err := os.Remove(name)
 		if err != nil {

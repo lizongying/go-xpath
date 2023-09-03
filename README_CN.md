@@ -1,22 +1,22 @@
 # go-xpath
 
-XPath Selector in Golang for Easier Use.
+golang实现的xpath选择器，使用更简单。
 
 [go-xpath](https://github.com/lizongying/go-xpath)
 
 [document](https://pkg.go.dev/github.com/lizongying/go-xpath)
 
-[中文](./README_CN.md)
+[english](./README.md)
 
-## Install
+## 安装
 
 ```
 go get -u github.com/lizongying/go-xpath@latest
 ```
 
-## Usage
+## 用法
 
-For more usage, please refer to the test
+有关更多用法，请参考测试文件。
 [selector_test](./xpath/selector_test.go)
 
 ```go
