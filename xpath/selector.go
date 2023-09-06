@@ -58,6 +58,10 @@ func (s *Selector) GetNode() (node *html.Node) {
 	return
 }
 
+func (s *Selector) ManySelector(path string) (selectors []*Selector) {
+	return s.FindNodeMany(path)
+}
+
 // FindNodeMany find nodes
 func (s *Selector) FindNodeMany(path string) (selectors []*Selector) {
 	if s == nil {
@@ -73,6 +77,10 @@ func (s *Selector) FindNodeMany(path string) (selectors []*Selector) {
 		})
 	}
 	return
+}
+
+func (s *Selector) OneSelector(path string) (selector *Selector) {
+	return s.FindNodeOne(path)
 }
 
 // FindNodeOne find node
@@ -286,6 +294,10 @@ func NewSelectorFromFile(f string) (selector *Selector, err error) {
 		node: node,
 	}
 	return
+}
+
+func (s *Selector) String() (str string) {
+	return s.OutHtml(true)
 }
 
 // OutHtml return html
